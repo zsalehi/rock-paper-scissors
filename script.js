@@ -22,6 +22,8 @@ function computerPlay () {
 }
 
 function playRound (playerSelection, computerSelection) {
+    //prompt player for selection 
+   
     // if player selects rock and computer selects rock output its a tie, no points awarded
     if (playerSelection === "rock" && computerSelection === "Paper") {
         console.log(`Computer wins! Paper beats Rock.`);
@@ -54,6 +56,23 @@ function playRound (playerSelection, computerSelection) {
 }
 
 const computerSelection = computerPlay();
-const playerSelection = "rock";
+let playerSelection;
 
-playRound(playerSelection, computerSelection);
+
+function game () {
+    for (let i = 0; i < 5; i++) {
+        playerSelection = prompt(`What do you choose? Enter "rock", "paper", or "scissors"`);
+        playRound(playerSelection, computerSelection);
+    }
+
+    if (playerPoints > computerPoints){
+        console.log(`Player wins!`);
+    } else if (playerPoints < computerPoints) {
+        console.log(`Computer wins! Player loses. :()`);
+    } else {
+        console.log(`The round is a tie!`);
+    }
+
+}
+
+game();
