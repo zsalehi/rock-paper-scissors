@@ -1,12 +1,26 @@
-// declare values for rock, paper, scissors
-const rock = 1;
-const paper = 2;
-const scissors = 3;
 let playerPoints = 0;
 let computerPoints = 0;
+let rounds = 0;
+
+const playerSelect = document.querySelectorAll(`.option`);
+playerSelect.forEach( option => { option.addEventListener('click', playRound)
+});
+
+const buttonReset = document.querySelector(`.reset`);
+buttonReset.addEventListener('click', resetGame);
+
+const roundResult = document.querySelector(`.round-result`);
+const roundNum = document.querySelector(`.round`);
+const playerScore = document.querySelector(`.your-score`);
+const computerScore = document.querySelector(`.computer-score`);
+const scoreText = document.querySelector(`.score-text`);
+
 
 // function computerPlay; randomly return either rock, paper or scissors
 function computerPlay () {
+    const rock = 1;
+    const paper = 2;
+    const scissors = 3;
     let randomNum = Math.floor(Math.random()*3) + 1;
     let selection;
     // define if statement that will print rock, paper, scissors when randonNum = rock, paper or scissors
@@ -21,61 +35,85 @@ function computerPlay () {
     return selection;
 }
 
-function playRound (playerSelection, computerSelection) {
-     // if player selects rock and computer selects rock output its a tie, no points awarded
-     if (playerSelection === computerSelection) {
-        console.log(`It's a tie. Player selected ${playerSelection} and Computer selected ${computerSelection}`);
-    } else if (playerSelection === "rock" && computerSelection === "paper") {
-        console.log(`Computer wins! Paper beats Rock.`);
+
+
+function checkRound (player, computer) {
+    if (player === computer) {
+        roundResult.innerText = `It's a tie.`;
+    } else if (player === "rock" && computer === "paper") {
+        roundResult.innerText = `Computer wins! Paa beats Guu.`;
         computerPoints++;
     // if player selects ROCK and computer selects SCISSORS - Player gets 1 point
-    } else if (playerSelection === "rock" && computerSelection === "scissors") {
-        console.log(`Player wins! Rock beats Scissors`);
+    } else if (player === "rock" && computer === "scissors") {
+        roundResult.innerText = `Player wins! Guu beats Choki`;
         playerPoints++;
     // if player selects PAPER and computer selects ROCK - Player gets 1 point
-    } else if (playerSelection === "paper" && computerSelection === "rock") {
-        console.log(`Player wins! Paper beats Rock`);
+    } else if (player === "paper" && computer === "rock") {
+        roundResult.innerText = `Player wins! Paa beats Guu`;
         playerPoints++;
     // if player selects PAPER and computer selects SCISSORS - Computer gets 1 point
-    } else if (playerSelection === "paper" && computerSelection === "scissors") {
-        console.log(`Computer wins! Scissors beats Paper`);
+    } else if (player === "paper" && computer === "scissors") {
+        roundResult.innerText = `Computer wins! Choki beats Paa`;
         computerPoints++;
     // if player selects SCISSORS and computer selects ROCK - Computer gets 1 point
-    } else if (playerSelection === "scissors" && computerSelection === "rock") {
-        console.log(`Computer wins! Rock beats Scissors`);
+    } else if (player === "scissors" && computer === "rock") {
+        roundResult.innerText = `Computer wins! Guu beats Choki`;
         computerPoints++;
-    } else if (playerSelection === "scissors" && computerSelection === "paper") {
-        console.log(`Player wins! Scissors beats Paper`);
+    } else if (player === "scissors" && computer === "paper") {
+        roundResult.innerText = `Player wins! Choki beats Paa`;
         playerPoints++;
     } else {
-        console.log(`Player input error, round lost.`)
+        roundResult.innerText = `Player input error, round lost.`;
     }
-    
-    return console.log(`Player Points = ${playerPoints} | Computer Points = ${computerPoints}`);
 
 }
 
-let computerSelection;
-let playerSelection;
-
-
-function game () {
-    // loop game for 5 rounds
-    for (let i = 0; i < 5; i++) {
-        playerSelection = prompt(`What do you choose? Enter "rock", "paper", or "scissors"`);
-        playerSelection = playerSelection.toLowerCase();
-        computerSelection = computerPlay();
-        playRound(playerSelection, computerSelection);
-    }
+function gameScore() {
     // show result of who wins entire game
-    if (playerPoints > computerPoints){
-        console.log(`Player wins!`);
-    } else if (playerPoints < computerPoints) {
-        console.log(`Computer wins! Player loses. :(`);
-    } else {
-        console.log(`The round is a tie!`);
+    rounds++;
+    roundNum.innerText = `Round: ${rounds}`;
+    playerScore.innerText = `Your Score: ${playerPoints}`;
+    computerScore.innerText = `Computer Score: ${computerPoints}`;
+    
+    if (rounds === 5) {
+        if (playerPoints > computerPoints) {
+            scoreText.innerText = `Game over! You win!`;
+            playerSelect.forEach ( option => option.classList.add('off'));
+        } else if (playerPoints < computerPoints) {
+            scoreText.innerText = `Game over! You lose, the computer beat you!`;
+            playerSelect.forEach ( option => option.classList.add('off'));
+        } else {
+            scoreText.innerText = `Game over! Some how the game was a draw!`;
+            playerSelect.forEach ( option => option.classList.add('off'));
+        }
     }
 
 }
 
-game();
+function playRound (e) {
+    // if player selects rock and computer selects rock output its a tie, no points awarded
+    const computerSelection = computerPlay();
+    let playerSelection = "empty";
+
+    if (this.classList.contains("rock")) playerSelection = "rock";
+    if (this.classList.contains("paper")) playerSelection = "paper";
+    if (this.classList.contains("scissors")) playerSelection = "scissors";
+
+    checkRound(playerSelection, computerSelection);
+    gameScore();
+    
+    return ;
+}
+
+
+function resetGame (e) {
+    rounds = 0;
+    playerPoints = 0;
+    computerPoints = 0;
+    roundNum.innerText = `Round: ${rounds}`;
+    playerScore.innerText = `Your Score: ${playerPoints}`;
+    computerScore.innerText = `Computer Score: ${computerPoints}`;
+    scoreText.innerText = ``;
+    playerSelect.forEach ( option => option.classList.remove('off'));
+
+}
