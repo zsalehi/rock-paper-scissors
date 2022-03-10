@@ -40,10 +40,12 @@ h1 {
 
 .score {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 10px;
 }
+
 
 .off {
     background-color: gray;
