@@ -114,6 +114,7 @@ function resetGame (e) {
     playerScore.innerText = `Your Score: ${playerPoints}`;
     computerScore.innerText = `Computer Score: ${computerPoints}`;
     scoreText.innerText = ``;
+    roundResult.innerText = ``;
     playerSelect.forEach ( option => option.classList.remove('off'));
 
 }

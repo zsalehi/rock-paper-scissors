@@ -25,6 +25,8 @@ h1 {
 
 .option {
     display: flex;
+    width: 200px;
+    height: 200px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -34,6 +36,13 @@ h1 {
 
 .option:hover {
     background-color: aquamarine;
+}
+
+.score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
 .off {
